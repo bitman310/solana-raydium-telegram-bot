@@ -13,9 +13,9 @@ const solConnection = new Connection(MAINNET_RPC);
 export const getRaydiumSwapParseData = async (
   signature: string
 ): Promise<Swap> => {
-  const txData = await solConnection.getParsedTransaction(signature, {
-    maxSupportedTransactionVersion: 0,
-  });
+  // const txData = await solConnection.getParsedTransaction(signature, {
+  //   maxSupportedTransactionVersion: 0,
+  // });
 
   if (!txData) throw `Not found transaction from signature`;
 
@@ -26,17 +26,17 @@ export const getRaydiumSwapParseData = async (
   if (!timestamp) throw `Transaction is not processed`;
 
   // signer
-  const accKeys = txData.transaction.message.accountKeys.map((val) =>
-    val.pubkey.toBase58()
-  );
+  // const accKeys = txData.transaction.message.accountKeys.map((val) =>
+  //   val.pubkey.toBase58()
+  // );
 
-  const swapIxIndex = txData.transaction.message.instructions.findIndex(
-    (ix) => ix.programId.toBase58() === Raydium_AMM_ADDRESS
-  );
+  // const swapIxIndex = txData.transaction.message.instructions.findIndex(
+  //   (ix) => ix.programId.toBase58() === Raydium_AMM_ADDRESS
+  // );
 
-  if (swapIxIndex === -1) throw `Not found raydium instruction in transaction`;
+  // if (swapIxIndex === -1) throw `Not found raydium instruction in transaction`;
 
-  if (!txData.meta?.innerInstructions) throw `Transaction not confirmed yet`;
+  // if (!txData.meta?.innerInstructions) throw `Transaction not confirmed yet`;
 
   const swapInnerIxs = txData.meta.innerInstructions.reduce((acc, innerIx) => {
     if (innerIx.index === swapIxIndex) return acc.concat(innerIx.instructions);
